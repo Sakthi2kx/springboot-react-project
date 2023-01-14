@@ -1,5 +1,6 @@
 import { notification } from "antd";
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import LoadingIndicator from "../common/LoadingIndicator";
 import { castVote, getAllPoll } from "../util/APIUtils";
 import Poll from "./Poll";
@@ -145,4 +146,4 @@ class PollList extends Component {
   }
 }
 
-export default PollList;
+export default withRouter(PollList);

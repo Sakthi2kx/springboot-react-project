@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 import "./App.css";
 
 import { ACCESS_TOKEN } from "../constants";
@@ -16,8 +16,7 @@ import Signup from "../user/signup/Signup";
 
 import { Layout, notification } from "antd";
 const { Content } = Layout;
-function App() {
-  let navigate = useNavigate();
+function App(props) {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +47,8 @@ function App() {
     localStorage.removeItem(ACCESS_TOKEN);
     setCurrentUser(null);
     setIsAuthenticated(false);
-    navigate(redirectTo);
+    // navigate(redirectTo);
+    props.history.push(redirectTo);
 
     notification[notificationType]({
       message: "Polling App",
@@ -62,7 +62,7 @@ function App() {
       description: "You're successfully logged in.",
     });
     loadCurrentUser();
-    navigate("/");
+    props.history.push("/");
   };
 
   useEffect(() => {
@@ -81,54 +81,55 @@ function App() {
 
       <Content className="app-content">
         <div className="container">
-          <Routes>
+          <Switch>
             <Route
               exact
               path="/"
-              element={
-                <PollList
+                render={(props) => <PollList
                   isAuthenticated={isAuthenticated}
                   currentUser={currentUser}
                   handleLogout={handleLogout}
+                  {...props}
                 />
               }
             ></Route>
             <Route
               path="/login"
-              element={<Login onLogin={handleLogin} />}
+              render={(props) =><Login onLogin={handleLogin} {...props}/>}
             ></Route>
-            <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/signup" component={Signup}></Route>
             <Route
               path="/users/:username"
-              element={
+              render={(props) =>
                 <Profile
                   isAuthenticated={isAuthenticated}
                   currentUser={currentUser}
+                  {...props}
                 />
               }
             ></Route>
             {isAuthenticated ? (
               <Route
                 path="/poll/new"
-                element={
+                render={props =>
                   <NewPoll
                     handleLogout={handleLogout}
                     authenticated={isAuthenticated}
+                    {...props}
                   />
                 }
               ></Route>
             ) : (
               <Route
-                path="/"
-                element={<Navigate replace to="/login" />}
+                path="/login"
               ></Route>
             )}
-            <Route element={NotFound}></Route>
-          </Routes>
+            <Route component={NotFound}></Route>
+          </Switch>
         </div>
       </Content>
     </Layout>
   );
 }
 
-export default App;
+export default withRouter(App);

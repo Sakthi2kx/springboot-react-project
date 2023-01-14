@@ -1,6 +1,5 @@
 import { Avatar } from "antd";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import NotFound from "../../common/NotFound";
 import ServerError from "../../common/ServerError";
@@ -9,8 +8,7 @@ import { getAvatarColor } from "../../util/Colors";
 import { formatDate } from "../../util/Helpers";
 import "./Profile.css";
 
-function Profile() {
-  let params = useParams();
+function Profile(props) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
@@ -36,9 +34,9 @@ function Profile() {
   };
 
   useEffect(() => {
-    const username = params.username;
+    const username = props.match.params.username;
     loadUserProfile(username);
-  }, [params.username]);
+  }, [props.match.params.username]);
 
   //   useEffect((nextProps) => {
   //     if (params.username !== nextProps.params.username) {

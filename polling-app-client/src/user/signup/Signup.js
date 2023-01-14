@@ -5,7 +5,7 @@ import {
   checkEmailAvailability,
 } from "../../util/APIUtils";
 import "./Signup.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import {
   NAME_MIN_LENGTH,
   NAME_MAX_LENGTH,
@@ -19,8 +19,7 @@ import {
 import { Form, Input, Button, notification } from "antd";
 const FormItem = Form.Item;
 
-function Signup() {
-  const navigate = useNavigate();
+function Signup(props) {
   const [name , setName] = useState({ value: "" });
   const[username,setUsername] = useState({value:""})
   const [email, setEmail] = useState({ value: "" });
@@ -42,7 +41,7 @@ function Signup() {
           description:
             "Thank you! You're successfully registered. Please Login to continue!",
         });
-        navigate("/login");
+        props.history.push("/login");
       })
       .catch((error) => {
         notification.error({

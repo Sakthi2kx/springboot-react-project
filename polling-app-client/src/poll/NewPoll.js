@@ -1,6 +1,5 @@
 import { Button, Col, Form, Input, notification, Select } from "antd";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   POLL_CHOICE_MAX_LENGTH, POLL_QUESTION_MAX_LENGTH
 } from "../constants";
@@ -11,7 +10,6 @@ const FormItem = Form.Item;
 const { TextArea } = Input;
 
 function NewPoll(props) {
-  let navigate = useNavigate();
   const [question, setQuestion] = useState({ text: "" });
   const [choices, setChoices] = useState([{ text: "" }, { text: "" }, { text: "" }, { text: "" }]);
   const [pollLength, setPollLength] = useState({ days: 1, hours: 0 });
@@ -28,7 +26,7 @@ function NewPoll(props) {
 
     createPoll(pollData)
       .then((response) => {
-        navigate("/");
+        props.history.push("/")
       })
       .catch((error) => {
         if (error.status === 401) {
