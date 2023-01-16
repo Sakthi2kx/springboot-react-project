@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {Route, Switch, withRouter} from "react-router-dom";
 import "./App.css";
 
-import { ACCESS_TOKEN } from "../constants";
+import { ACCESS_TOKEN } from "../constants/constant";
 import { getCurrentUser } from "../util/APIUtils";
 
 import AppHeader from "../common/AppHeader";

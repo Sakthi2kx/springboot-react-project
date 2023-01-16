@@ -14,7 +14,7 @@ import {
   EMAIL_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
   PASSWORD_MAX_LENGTH,
-} from "../../constants";
+} from "../../constants/constant";
 
 import { Form, Input, Button, notification } from "antd";
 const FormItem = Form.Item;

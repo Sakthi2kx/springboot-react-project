@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, notification, Select } from "antd";
 import React, { useState } from "react";
 import {
   POLL_CHOICE_MAX_LENGTH, POLL_QUESTION_MAX_LENGTH
-} from "../constants";
+} from "../constants/constant";
 import { createPoll } from "../util/APIUtils";
 import "./NewPoll.css";
 const Option = Select.Option;
