@@ -12,7 +12,7 @@ services:
       #dockerfile: Dockerfile
     image: sakthi2kx/survey
     ports:
-      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+      - "8081:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
     depends_on: 
       - db # This service depends on mysql. Start that first.
