@@ -7,9 +7,11 @@ services:
   # App backend service
   app-server:
     # Configuration for building the docker image for the backend service
-    build:
-      context: polling-app-server # Use an image built from the specified dockerfile in the `polling-app-server` directory.
-      dockerfile: Dockerfile
+    #build:
+      #context: polling-app-server # Use an image built from the specified dockerfile in the `polling-app-server` directory.
+      #dockerfile: Dockerfile
+    image:
+      - sakthi2kx/survey:latest
     ports:
       - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
@@ -25,9 +27,13 @@ services:
 
   # Frontend Service 
   app-client:
+    image:
+      - sakthi2kx/survey-client:latest
+      args:
+        REACT_APP_API_BASE_URL: http://127.0.0.1:8080/api
     build:
-      context: polling-app-client # Use an image built from the specified dockerfile in the `polling-app-client` directory.
-      dockerfile: Dockerfile
+      #context: polling-app-client # Use an image built from the specified dockerfile in the `polling-app-client` directory.
+      #dockerfile: Dockerfile
       args:
         REACT_APP_API_BASE_URL: http://127.0.0.1:8080/api
     ports:
