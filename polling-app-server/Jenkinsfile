@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    tools{
+        maven 'maven'
+    }
+    stages{
+        stage('Build Maven'){
+            steps{
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '5ddba508-4ae2-4c00-ba42-c95ac41a7603', url: 'https://github.com/Sakthi2kx/springboot-react-project.git']]])
+                dir('polling-app-server'){
+                    bat 'mvn clean install'
+                }
+            }
+        }
+        stage('code quality'){
+            steps{
+                dir('polling-app-server'){
+                withSonarQubeEnv('sonarqube') {
+                    // If you have configured more than one global server connection, you can specify its name
+                    //sh "${scannerHome}/bin/sonar-scanner"
+                    bat "mvn sonar:sonar"
+                    }
+                }
+            }
+        }
+        stage('Build docker image'){
+            steps{
+                script{
+                    bat 'docker build -t sakthi2kx/survey ./polling-app-server'
+                }
+            }
+        }
+        stage('Push image to Hub'){
+            steps{
+                script{
+                   withCredentials([string(credentialsId: 'docker-hub-password', variable: 'docker-hub-password')]) {
+                   bat 'docker login -u sakthi2kx -p admin@123'
+                    }
+                   bat 'docker push sakthi2kx/survey'
+                }
+            }
+        }
+    }    
+}
